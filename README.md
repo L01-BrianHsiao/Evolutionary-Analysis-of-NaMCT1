@@ -4,44 +4,41 @@ Analysis of NaMCT1 Protein
 Lab 5
 ```bash
 ncbi-acc-download -F fasta -m protein XP_001619353.2 
+#Download protein sequences using succession in NCBI
 
 blastp -db allprotein.fas -query XP_001619353.2 -outfmt 0 -max_hsps 1 -out NaMCT1.blastp.typical.out 
 
-less NaMCT1.blastp.typical.out 
-
 blastp -db allprotein.fas -query XP_032239066.1.fa -outfmt "6 sseqid pident length mismatch gapopen evalue bitscore pident stitle"  -max_hsps 1 -out maguk.blastp.detail.out
+#Find homologs of NaMCT1 protein sequence
 
 awk '{if ($6<0.00000000000001)print $1 }' NaMCT1.blastp.detail.out > NaMCT1.blastp.detail.filtered.out
-
-wc -l NaMCT1.blastp.detail.filtered.out
+#Remove homologs with evalue greater than 10e-14, giving us the putative homologs of NaMCT1
 
 seqkit grep --pattern-file NaMCT1.blastp.detail.filtered.out allprotein.fas > NaMCT1.blastp.detail.filtered.fas
+#Change file format from .out to .fas
 
 muscle -in NaMCT1.blastp.detail.filtered.fas -out NaMCT1.blastp.detail.filtered.aligned.fas
+#Align the sequence of our protein
 
 t_coffee -other_pg seq_reformat -in NaMCT1.blastp.detail.filtered.aligned.fas -output sim
-
-alv -k NaMCT1.blastp.detail.filtered.aligned.fas | less -r 
-
-alv -kli --majority NaMCT1.blastp.detail.filtered.aligned.fas | less -RS
+#Provide statistics of our aligne sequences including percent identity.
 
 t_coffee -other_pg seq_reformat -in NaMCT1.blastp.detail.filtered.aligned.fas -action +rm_gap 50 -out NaMCT1.blastp.detail.filtered.aligned.r50.fas
+#Removes columns containing greater than 50% gapped residues
 
-alv -kli --majority NaMCT1.blastp.detail.filtered.aligned.r50.fas | less -RS
-```
 
 Lab 6
 ```bash
 
-cp ../lab5-L01-BrianHsiao/NaMCT1.blastp.detail.filtered.aligned.fas .
-
 sed "s/ /_/g" NaMCT1.blastp.detail.filtered.aligned.fas > NaMCT1.blastp.detail.filtered.aligned_.fas
+#Replaces spaces in our NaMCT1 fasta file with underscores so the spaces dont get deleted.
 
 iqtree -s NaMCT1.blastp.detail.filtered.aligned_.fas -nt 2
+#Gives us maximum likelihood tree estimate, a tree file, summary of tree search, and the substitution model we use for our tree file and tree estimate.
 
 gotree reroot midpoint -i NaMCT1.blastp.detail.filtered.aligned_.fas.treefile -o NaMCT1.blastp.detail.filtered.aligned_.fas.midpoint.treefile
-    
-nw_display -s  NaMCT1.blastp.detail.filtered.aligned_.fas.midpoint.treefile -w 1000 -b 'opacity:0' > NaMCT1.blastp.detail.filtered.aligned_.fas.midpoint.treefile.svg
+#Reroots the tree at the midpoint, such that the root of the tree is half the length of the longest lineage of the tree.
+
 ```
 
 Lab 7
