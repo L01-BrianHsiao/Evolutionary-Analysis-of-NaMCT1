@@ -25,7 +25,7 @@ t_coffee -other_pg seq_reformat -in NaMCT1.blastp.detail.filtered.aligned.fas -o
 
 t_coffee -other_pg seq_reformat -in NaMCT1.blastp.detail.filtered.aligned.fas -action +rm_gap 50 -out NaMCT1.blastp.detail.filtered.aligned.r50.fas
 #Removes columns containing greater than 50% gapped residues
-
+```bash
 
 Lab 6
 ```bash
