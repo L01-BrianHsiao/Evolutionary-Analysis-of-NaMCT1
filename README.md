@@ -1,7 +1,6 @@
-# Methods
-Analysis of NaMCT1 Protein
+Here is the code required to run through a repeat analysis of the NaMCT1 gene. 
 
-Lab 5
+NaMCT1 Identification and Preliminary Analysis
 ```bash
 ncbi-acc-download -F fasta -m protein XP_001619353.2 
 #Download protein sequences using succession in NCBI
@@ -30,7 +29,7 @@ t_coffee -other_pg seq_reformat -in NaMCT1.blastp.detail.filtered.aligned.fas -a
 
 ```
 
-Lab 6
+NaMCT1 Alignment and Initial Species/Gene Tree Creation
 ```bash
 
 sed "s/ /_/g" NaMCT1.blastp.detail.filtered.aligned.fas > NaMCT1.blastp.detail.filtered.aligned_.fas
@@ -46,7 +45,7 @@ nw_display -s  NaMCT1.blastp.detail.filtered.aligned_.fas.midpoint.treefile -w 1
 #View the midpoint rooted tree
 ```
 
-Lab 7
+Phylogenetic Analysis, Tree Generation, and Reconciliation of Subsequent Trees
 ```bash
 java -jar ~/tools/Notung-3.0-beta/Notung-3.0-beta.jar -s speciesTreeBilateriaCnidaria.tre -g NaMCT1.blastp.detail.filtered.aligned_.fas.midpoint.treefile --reconcile --speciestag prefix --savepng --events
 #Reconcile our species tree with our rerooted mipoint tree in lab6 using notung.
@@ -71,7 +70,7 @@ java -jar ~/tools/Notung-3.0-beta/Notung-3.0-beta.jar -s speciesTreeBilateriaCni
 #Minimizes the gene duplications and losses present in our newly produced reconciled tree and reroots it.
 ```
 
-Lab 8
+NaMCT1 Protein Domain Analysis
 ```bash
 
 iprscan5   --email brian.hsiao@stonybrook.edu  --multifasta --useSeqId --sequence   NaMCT1.blastp.detail.filtered.fas
