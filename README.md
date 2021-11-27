@@ -8,6 +8,8 @@ ncbi-acc-download -F fasta -m protein XP_001619353.2
 
 blastp -db allprotein.fas -query XP_001619353.2 -outfmt 0 -max_hsps 1 -out NaMCT1.blastp.typical.out 
 
+less NaMCT1.blastp.typical.out 
+
 blastp -db allprotein.fas -query XP_032239066.1.fa -outfmt "6 sseqid pident length mismatch gapopen evalue bitscore pident stitle"  -max_hsps 1 -out maguk.blastp.detail.out
 #Find homologs of NaMCT1 protein sequence
 
@@ -25,6 +27,7 @@ t_coffee -other_pg seq_reformat -in NaMCT1.blastp.detail.filtered.aligned.fas -o
 
 t_coffee -other_pg seq_reformat -in NaMCT1.blastp.detail.filtered.aligned.fas -action +rm_gap 50 -out NaMCT1.blastp.detail.filtered.aligned.r50.fas
 #Removes columns containing greater than 50% gapped residues
+
 ```
 
 Lab 6
@@ -39,6 +42,8 @@ iqtree -s NaMCT1.blastp.detail.filtered.aligned_.fas -nt 2
 gotree reroot midpoint -i NaMCT1.blastp.detail.filtered.aligned_.fas.treefile -o NaMCT1.blastp.detail.filtered.aligned_.fas.midpoint.treefile
 #Reroots the tree at the midpoint, such that the root of the tree is half the length of the longest lineage of the tree.
 
+nw_display -s  NaMCT1.blastp.detail.filtered.aligned_.fas.midpoint.treefile -w 1000 -b 'opacity:0' > NaMCT1.blastp.detail.filtered.aligned_.fas.midpoint.treefile.svg
+#View the midpoint rooted tree
 ```
 
 Lab 7
@@ -79,6 +84,5 @@ grep Pfam ~/labs/lab8-L01-BrianHsiao/NaMCT1.domains.all.tsv >  ~/labs/lab8-L01-B
 #grep filters out domains that aren't defined on the Pfam database. Grep will only include domains that have a definition on the Pfam database in our tsv file.
 
 awk 'BEGIN{FS="\t"} {print $1"\t"$3"\t"$7"@"$8"@"$5}' ~/labs/lab8-L01-BrianHsiao/NaMCT1.domains.pfam.tsv | datamash -sW --group=1,2 collapse 3 | sed 's/,/\t/g' | sed 's/@/,/g' > ~/labs/lab8-L01-BrianHsiao/NaMCT1.domains.pfam.evol.tsv
-#Fixes??
 
 ```
