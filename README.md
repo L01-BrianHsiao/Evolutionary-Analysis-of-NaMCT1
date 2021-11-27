@@ -1,4 +1,4 @@
-Here is the code required to run through a repeat analysis of the NaMCT1 gene. 
+Here is the code required to run through a repeat analysis of the NaMCT1 gene. The commands are separated into four major sections, and should be followed linearly.
 
 NaMCT1 Identification and Preliminary Analysis
 ```bash
